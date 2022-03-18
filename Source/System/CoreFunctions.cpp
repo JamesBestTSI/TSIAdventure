@@ -2,7 +2,9 @@
 #include "CoreFunctions.h"
 #include <string>
 
+// Constructor
 CoreFunctions::CoreFunctions(){};
+// De-constructor
 CoreFunctions::~CoreFunctions(){};
 
 /// <summary>
@@ -34,6 +36,7 @@ int CoreFunctions::GetInt(){
 /// </summary>
 /// <returns>The string they entered</returns>
 std::string CoreFunctions::GetString(){
+    std::cin.ignore();
     std::string consoleInput;
     std::getline(std::cin, consoleInput);
     return consoleInput;

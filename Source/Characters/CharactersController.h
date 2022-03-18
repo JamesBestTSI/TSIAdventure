@@ -1,6 +1,6 @@
 #ifndef CHARACTERSCONTROLLER_H
 #define CHARACTERSCONTROLLER_H
-#include "Character.cpp"
+#include "Character.h"
 
 class CharactersController{
     

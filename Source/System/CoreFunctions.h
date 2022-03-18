@@ -3,12 +3,12 @@
 #include <string>
 
 class CoreFunctions{
-public:
-    CoreFunctions();
-    ~CoreFunctions();
+    public:
+        CoreFunctions();
+        ~CoreFunctions();
 
-    int GetInt();
-    std::string GetString();
-    char GetChar();
+        int GetInt();
+        std::string GetString();
+        char GetChar();
 };
 #endif
