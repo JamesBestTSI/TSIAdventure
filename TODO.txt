@@ -1,0 +1,95 @@
+Outcomes:
+	- Kill dragon and give the king the crown
+	- Kill dragon and king and put on the crown
+	- Death by Dragon
+	- Death by Merman
+	- Death by Necromancer
+
+Create character
+
+Create 5 by 5 map grid
+
+Create Rooms
+
+House
+- Home
+- Where character can rest and get back health
+
+Grassland
+- Fights
+- Low level fights
+- Allow you to gain strength
+
+
+Wood cabin
+- broken axe handle
+- requires strength to open door
+- Has a ladder inside
+
+
+Huge Tree
+- Old drunk man
+- Needs a ladder
+- Has rare bird egg at the top
+
+
+Shop
+- Shopkeep
+- Is willing to trade for rare bird egg
+- Sells a magic scroll
+
+
+Graveyard 
+- Necromancer
+- Stole a magic staff
+- Wants a magic scroll
+
+Lake
+- Merman
+- Wants his magic staff back
+- Sword hidden at the bottom
+
+Cave
+- Dragon
+- Guards a gold crown
+- Killed with sword from lake
+
+Castle
+- King
+- Wants a gold crown
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create the characters you can interact with
+Place them in the correct rooms on the map
+
+Create the items you can collect
+Place them in the correct rooms on the map
+
+
+
+Create a pointer that will point to what room the player is in
+
+Update rooms so they know what room is up down left and right of them
+
+Allow travel from one room to another
+
+
+
+Create a pathway throughout the rooms
+Make sure that you can get to them all, but that some have ways you can't go
+Start at the house and move to a linked room
+Move from that room to another
+Keep doing this untill every room has atleast one connection
+
+PICK DIRECTION AT RANDOM
