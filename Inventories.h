@@ -3,8 +3,7 @@
 #include <string>
 
 
-class Inventories{
-   
+class Inventories{  
 
     public:
         struct Item {

@@ -3,6 +3,7 @@
 #include <stdexcept>// This allows us to use try/catch
 #include "Characters.cpp"
 #include  "CoreFunctions.cpp"
+#include "MapDesigner.cpp"
 
 const char HIDDENBLOCK = (char)219;
 const char UD = (char)186;
@@ -13,15 +14,7 @@ const char directions[9] = { (char)201,(char)203,(char)181,
 
 
 
-struct Room {
-    std::string Name;
-    Inventories::Item items[10];
-};
 
-
-struct Map {
-    Room rooms[5][5];
-};
 
 
 /// <summary>
@@ -31,13 +24,15 @@ struct Map {
 int main()
 {
     CoreFunctions core = CoreFunctions();
+    MapDesigner maps = MapDesigner();
     Characters player = Characters();
     
     std::cout << "Please Enter Your Name: ";
     player.SetName(core.GetString());
     player.DisplayCharacterStats();
-    player.DisplayCharacterInventory();
+    //player.DisplayCharacterInventory();
 
+    maps.CreateWorldMap();
 
 
     system("cls");
