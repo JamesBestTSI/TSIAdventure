@@ -1,7 +1,7 @@
 #ifndef CHARACTERS_H
 #define CHARACTERS_H
 #include <string>
-#include "Inventories.cpp"
+#include "../Items/Inventories.cpp"
 
 class Characters{
     struct Character {

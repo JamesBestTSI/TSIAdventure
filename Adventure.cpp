@@ -1,9 +1,9 @@
 ﻿#include <iostream> // This includes all code/functions for input/output of data streams
 #include <string>   // This allows us to work with string types (Lots of characters joined together such as words)
 #include <stdexcept>// This allows us to use try/catch
-#include "Characters.cpp"
-#include  "CoreFunctions.cpp"
-#include "MapDesigner.cpp"
+#include "Source/Characters/Characters.cpp"
+#include "Source/System/CoreFunctions.cpp"
+#include "Source/Maps/MapDesigner.cpp"
 
 const char HIDDENBLOCK = (char)219;
 const char UD = (char)186;

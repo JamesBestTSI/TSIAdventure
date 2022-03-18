@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iterator>
-#include "Characters.h"
-#include "Inventories.h"
+#include "Characters.h" 
+#include "../Items/Inventories.h"
 
 Characters::Characters(){
     
