@@ -9,6 +9,7 @@
 
 
 #include "Colour.h"
+#include "World.cpp"
 
 void SetupCharacters(CharactersController &characterController);
 
@@ -19,6 +20,28 @@ void SetupCharacters(CharactersController &characterController);
 /// <returns></returns>
 int main()
 {
+    World gameWorld = World();
+    gameWorld.CreateWorldMap();
+    gameWorld.DisplayWorldMap();
+    gameWorld.ExpandWorldMap(World::directions::Down);
+    gameWorld.DisplayWorldMap();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Set up instances
     system("cls");
     CoreFunctions core = CoreFunctions();
