@@ -1,5 +1,6 @@
 #include "World.h"
 #include <iostream>
+#include <random>
 
 World::World(){};
 World::~World(){};
@@ -29,7 +30,10 @@ void World::DisplayWorldMap(){
     for (int row = 0; row< worldHeight; row++){
         for (int col = 0; col< worldWidth; col++){
             if (worldMap[row*worldWidth+col].playerIsHere){std::cout << (char)153;}
-            else{std::cout << (char)worldMap[row*worldWidth+col].mapIcon;}
+            else{
+                
+                std::cout << (char)worldMap[row*worldWidth+col].mapIcon;
+                }
         }
         std::cout << std::endl;
     }

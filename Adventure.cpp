@@ -6,16 +6,13 @@
 #include "Source/Characters/Character.cpp"
 #include "Source/Characters/CharacterFaces.cpp"
 #include "Source/System/CoreFunctions.cpp"
-#include "Source/Maps/MapDesigner.cpp"
-
-
-#include "Colour.h"
-#include "World.cpp"
+#include "Source/Maps/World.cpp"
 
 void SetupCharacters(CharactersController &characterController);
 void CheckForMovement(char button, World &gameWorld,  Character &player );
 void UpdateHunger(Character &player);
-void CreateMap(CoreFunctions core, World gameWorld);
+void CreateMap(CoreFunctions core, World &gameWorld);
+void ProcessRoom(CoreFunctions core, std::string roomName);
 
 
 
@@ -25,6 +22,10 @@ void CreateMap(CoreFunctions core, World gameWorld);
 /// <returns></returns>
 int main()
 {
+    std::cout << "It is advised to run the EXE and not in terminal\nPartly so you can fullscreen the window,\nbut also because some characters will not display in terminal.\nPress any key to continue..." <<std::endl;
+    getch();
+
+
     // Set up instances
     CoreFunctions core = CoreFunctions();
     World gameWorld = World();
@@ -50,27 +51,37 @@ int main()
     while (gameIsRunning){
         bool hunger = false;
         system("cls");
+        std::string roomName =  gameWorld.worldMap[ gameWorld.playerPos[1]*gameWorld.worldWidth+gameWorld.playerPos[0]].Name;
         UpdateHunger(player);
 
         // Common Display
         player.DisplayCharacterStats();
+        player.DisplayCharacterInventory();
+        
+        std::cout << "\n------------------------" << std::endl;
         gameWorld.DisplayWorldMap();
+        std::cout << "\n-----------Location-------------" << std::endl;
         std::cout << player.characterData.Name << " is at ";
         gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
         std::cout << std::endl<< "Description: ";
         gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+        std::cout << "\n------------------------\n" << std::endl;
+        std::cout << "\nMove with W,A,S,D" << std::endl;
 
         // Show info if starving 
         if (player.characterData.Starved)
-        {std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!"; player.characterData.Starved=false;}
+        {std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!\n"; player.characterData.Starved=false;}
 
+        ProcessRoom(core, roomName);
+        
+        std::cout <<"Move:";
         char button = getch();
         CheckForMovement(button, gameWorld,player);
         
     }
 }
 
-void CreateMap(CoreFunctions core, World gameWorld){
+void CreateMap(CoreFunctions core, World &gameWorld){
     bool worldCreated=false;
     while (!worldCreated){
         system("cls");
@@ -196,4 +207,26 @@ void UpdateHunger(Character &player){
             player.characterData.HPCurrent--;
             player.characterData.Hunger-=10;
         }
-}
+};
+
+void ProcessRoom(CoreFunctions core, std::string roomName){
+    if(roomName == "Small House"){
+        std::cout << "1. Take a small nap.\n2.Have a look around.\n>" ;
+        int ans = core.GetInt();
+        
+        std::cin.ignore();
+        switch(ans){
+            case 1:{
+                std::cout <<"\nYou take a small nap and feel healthier, although slightly more hungry."<< std::endl;
+                break;
+            }
+            case 2:{
+                std::cout <<"\nYou take a look around and find nothing of interest."<< std::endl;
+                break;
+            }
+            default:{
+                std::cout <<"\nYou don't sem to want to do either of the two options that come to mind, and so just stand there for a while looking dumb."<< std::endl;
+            }
+        }
+    }
+};

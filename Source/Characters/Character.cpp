@@ -51,9 +51,11 @@ void Character::DisplayCharacterInventory()
 {
     int slotNumber = 0;
     std::cout << "\n----Inventory----" << std::endl;
-    for (int Index = 0; Index < sizeof(characterData.inventory.itemList.items); Index++)
+    for (int Index = 0; Index < 10; Index++)
     {
-        std::cout << "Slot " << Index << " - " << characterData.inventory.itemList.items[Index].Name << "\n  -" << characterData.inventory.itemList.items[Index].Description << std::endl;
+        if(characterData.inventory.itemList.items[Index].Name != "Empty" || Index<3){
+            std::cout << "Slot " << Index << " - " << characterData.inventory.itemList.items[Index].Name << "\n  -" << characterData.inventory.itemList.items[Index].Description << std::endl;
+        }
     }
     // for (auto &item : characterData.inventory.itemList) {
     //     std::cout << "Slot " << slotNumber << " - " << item.Name << "\n  -" << item.Description << std::endl;
