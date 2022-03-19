@@ -20,11 +20,32 @@ void SetupCharacters(CharactersController &characterController);
 /// <returns></returns>
 int main()
 {
+    CoreFunctions core = CoreFunctions();
+    std::cout << "Please enter width of world: ";
+    int xsize = core.GetInt();
+    std::cout << "Please enter height of world: ";
+    int ysize = core.GetInt();
+
     World gameWorld = World();
+    gameWorld.playerPos[0]=0;
+    gameWorld.playerPos[1]=0;
+    gameWorld.SetWorldSize(xsize, ysize);
+    std::cout << "-";
     gameWorld.CreateWorldMap();
+    std::cout << "-";
+    gameWorld.CreateImportantRooms();
+    std::cout << "-";
+    gameWorld.ScatterImportantRooms();
+    std::cout << "-";    
+    gameWorld.PlacePlayerInRoom(0,0);
+    gameWorld.UpdateRoomsData();
+    std::cout << "-" << std::endl;
+    gameWorld.CreatePaths();
     gameWorld.DisplayWorldMap();
-    gameWorld.ExpandWorldMap(World::directions::Down);
-    gameWorld.DisplayWorldMap();
+    //gameWorld.ExpandWorldMap(World::directions::Down);
+   // gameWorld.DisplayWorldMap();
+    
+    core.GetInt();
 
 
 
@@ -40,8 +61,7 @@ int main()
 
 
 
-
-
+/*
     // Set up instances
     system("cls");
     CoreFunctions core = CoreFunctions();
@@ -78,6 +98,7 @@ int main()
 
     //for (int index = 0; index < 255; index++) {
     //std::cout << "Index " << index << " " << (char)index << std::endl;}
+    */
 }
 
 void SetupCharacters(CharactersController &characterController)
