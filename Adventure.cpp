@@ -24,32 +24,55 @@ void UpdateHunger(Character &player);
 int main()
 {
     CoreFunctions core = CoreFunctions();
-    std::cout << "Please enter width of world (EG 30): ";
-    int xsize = core.GetInt();
-    std::cout << "Please enter height of world(EG 10): ";
-    int ysize = core.GetInt();
-
     World gameWorld = World();
-    gameWorld.playerPos[0]=0;
-    gameWorld.playerPos[1]=0;
-    gameWorld.SetWorldSize(xsize, ysize);
-    std::cout << "-";
-    gameWorld.CreateWorldMap();
-    std::cout << "-";
-    gameWorld.CreateImportantRooms();
-    std::cout << "-";
-    gameWorld.ScatterImportantRooms();
-    std::cout << "-";    
-    gameWorld.PlacePlayerInRoom(0,0);
-    gameWorld.UpdateRoomsData();
-    std::cout << "-" << std::endl;
-    gameWorld.CreatePaths();
-    gameWorld.DisplayWorldMap();
-    //gameWorld.ExpandWorldMap(World::directions::Down);
-   // gameWorld.DisplayWorldMap();
-    getch();
+    bool worldCreated=false;
 
+    while (!worldCreated){
+        system("cls");
+        std::cout << "Please enter width of world (EG 30): ";
+        int xsize = core.GetInt();
+        std::cout << "Please enter height of world(EG 10): ";
+        int ysize = core.GetInt();
 
+        
+
+        bool worldReady=false;
+        gameWorld.playerPos[0]=0;
+        gameWorld.playerPos[1]=0;
+        while(!worldReady){
+            system("cls");
+            gameWorld.SetWorldSize(xsize, ysize);
+            std::cout << "-";
+            gameWorld.CreateWorldMap();
+            std::cout << "-";
+            gameWorld.CreateImportantRooms();
+            std::cout << "-";
+            gameWorld.ScatterImportantRooms();
+            std::cout << "-";    
+            gameWorld.PlacePlayerInRoom(0,0);
+            gameWorld.UpdateRoomsData();
+            std::cout << "-" << std::endl;
+            gameWorld.CreatePaths();
+            gameWorld.DisplayWorldMap();
+
+            std::cout << "Press 'n' for new map 's' for new size, or any other key to continue: ";
+            char btn = getch();
+            switch(btn){
+                case 's':{
+                    worldReady=true;
+                    break;
+                } 
+                case 'n':{
+                    break;
+                }
+                default:{ 
+                    worldCreated = true;
+                    worldReady=true;
+                    break;
+                }
+            }
+        }
+    }
 
 
 
