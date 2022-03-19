@@ -15,6 +15,8 @@
 void SetupCharacters(CharactersController &characterController);
 void CheckForMovement(char button, World &gameWorld,  Character &player );
 void UpdateHunger(Character &player);
+void CreateMap(CoreFunctions core, World gameWorld);
+
 
 
 /// <summary>
@@ -23,10 +25,53 @@ void UpdateHunger(Character &player);
 /// <returns></returns>
 int main()
 {
+    // Set up instances
     CoreFunctions core = CoreFunctions();
     World gameWorld = World();
-    bool worldCreated=false;
+    CharacterFaces faces = CharacterFaces();
+    CharactersController characterController = CharactersController();
+    CreateMap(core,gameWorld);
+    system("cls");
 
+    // Create players character
+    Character player = Character("Player", 10,10,2,2);
+    player.DisplayCharacterFace();
+    player.ChangeEyes();
+    player.ChangeMouth();
+    std::cout << "Please Enter Your Name: ";
+    player.SetName(core.GetString());
+
+    // Create the world map
+    SetupCharacters(characterController);
+    
+    bool gameIsRunning = true;
+    int fingers=10;
+
+    while (gameIsRunning){
+        bool hunger = false;
+        system("cls");
+        UpdateHunger(player);
+
+        // Common Display
+        player.DisplayCharacterStats();
+        gameWorld.DisplayWorldMap();
+        std::cout << player.characterData.Name << " is at ";
+        gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+        std::cout << std::endl<< "Description: ";
+        gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+
+        // Show info if starving 
+        if (player.characterData.Starved)
+        {std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!"; player.characterData.Starved=false;}
+
+        char button = getch();
+        CheckForMovement(button, gameWorld,player);
+        
+    }
+}
+
+void CreateMap(CoreFunctions core, World gameWorld){
+    bool worldCreated=false;
     while (!worldCreated){
         system("cls");
         std::cout << "Please enter width of world (EG 30): ";
@@ -73,61 +118,7 @@ int main()
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Set up instances
-    system("cls");
-    CharacterFaces faces = CharacterFaces();
-    CharactersController characterController = CharactersController();
-
-    // Create players character
-    Character player = Character("Player", 10,10,2,2);
-    player.DisplayCharacterFace();
-    player.ChangeEyes();
-    player.ChangeMouth();
-    std::cout << "Please Enter Your Name: ";
-    player.SetName(core.GetString());
-
-    // Create the world map
-    SetupCharacters(characterController);
-    
-    bool gameIsRunning = true;
-    int fingers=10;
-
-    while (gameIsRunning){
-        bool hunger = false;
-        system("cls");
-        UpdateHunger(player);
-
-        // Common Display
-        player.DisplayCharacterStats();
-        gameWorld.DisplayWorldMap();
-        std::cout << player.characterData.Name << " is at ";
-        gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
-        std::cout << std::endl<< "Description: ";
-        gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
-
-        // Show info if starving 
-        if (player.characterData.Starved)
-        {std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!"; player.characterData.Starved=false;}
-
-        char button = getch();
-        CheckForMovement(button, gameWorld,player);
-        
-    }
-}
+};
 
 void SetupCharacters(CharactersController &characterController)
 {
@@ -138,7 +129,6 @@ void SetupCharacters(CharactersController &characterController)
     characterController.gameCharacters[4] = Character("The Dragon", 9999, 9999, 99, 99);
     characterController.gameCharacters[5] = Character("The King", 500, 0, 15, 10);
 };
-
 
 void CheckForMovement(char button, World &gameWorld,  Character &player){
     switch(button){
