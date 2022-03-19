@@ -13,6 +13,8 @@
 #include "World.cpp"
 
 void SetupCharacters(CharactersController &characterController);
+void CheckForMovement(char button, World &gameWorld,  Character &player );
+void UpdateHunger(Character &player);
 
 
 /// <summary>
@@ -82,65 +84,26 @@ int main()
     int fingers=10;
 
     while (gameIsRunning){
-        // Common Display
         bool hunger = false;
         system("cls");
-        if (player.characterData.Hunger>30&& fingers>0)
-        {   
-            hunger=true;
-            fingers--;
-            player.characterData.HPCurrent--;
-            player.characterData.Hunger-=10;
-        }
+        UpdateHunger(player);
+
+        // Common Display
         player.DisplayCharacterStats();
         gameWorld.DisplayWorldMap();
         std::cout << player.characterData.Name << " is at ";
         gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
         std::cout << std::endl<< "Description: ";
         gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
-        if (hunger){std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << fingers <<" remaining!";}
+
+        // Show info if starving 
+        if (player.characterData.Starved)
+        {std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!"; player.characterData.Starved=false;}
+
         char button = getch();
-        switch(button){
-            case 'w':{
-                if (gameWorld.worldMap[gameWorld.playerIndex].Up!=NULL){
-                    if(gameWorld.worldMap[gameWorld.playerIndex].Up->usable){
-                        player.characterData.Hunger++;
-                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]-1);
-                    }
-                }
-                break;
-            }
-            case 'a':{
-                if (gameWorld.worldMap[gameWorld.playerIndex].Left!=NULL){
-                    if(gameWorld.worldMap[gameWorld.playerIndex].Left->usable){
-                        player.characterData.Hunger++;
-                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]-1,gameWorld.playerPos[1]);
-                    }
-                }
-                break;
-            }
-            case 's':{
-                if (gameWorld.worldMap[gameWorld.playerIndex].Down!=NULL){
-                    if(gameWorld.worldMap[gameWorld.playerIndex].Down->usable){
-                        player.characterData.Hunger++;
-                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]+1);
-                    }
-                }
-                break;
-            }
-            case 'd':{
-                if (gameWorld.worldMap[gameWorld.playerIndex].Right!=NULL){
-                    if(gameWorld.worldMap[gameWorld.playerIndex].Right->usable){
-                        player.characterData.Hunger++;
-                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]+1,gameWorld.playerPos[1]);
-                    }
-                }
-                break;
-            }
-        }
+        CheckForMovement(button, gameWorld,player);
+        
     }
-    //for (int index = 0; index < 255; index++) {
-    //std::cout << "Index " << index << " " << (char)index << std::endl;}
 }
 
 void SetupCharacters(CharactersController &characterController)
@@ -151,4 +114,73 @@ void SetupCharacters(CharactersController &characterController)
     characterController.gameCharacters[3] = Character("The Merman", 800, 500, 25, 25);
     characterController.gameCharacters[4] = Character("The Dragon", 9999, 9999, 99, 99);
     characterController.gameCharacters[5] = Character("The King", 500, 0, 15, 10);
+};
+
+
+void CheckForMovement(char button, World &gameWorld,  Character &player){
+    switch(button){
+            case 'w':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Up!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Up->usable){
+                        player.characterData.Hunger++;
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]-1);
+                    }
+                }
+                else{
+                    gameWorld.ExpandWorldMap(World::directions::Up);
+                    gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]+1);
+                    gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+                }
+                break;
+            }
+            case 'a':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Left!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Left->usable){
+                        player.characterData.Hunger++;
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]-1,gameWorld.playerPos[1]);
+                    }
+                }
+                else{
+                    gameWorld.ExpandWorldMap(World::directions::Left);
+                    gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]+1,gameWorld.playerPos[1]);
+                    gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+                }
+                break;
+            }
+            case 's':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Down!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Down->usable){
+                        player.characterData.Hunger++;
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]+1);
+                    }
+                }
+                else{
+                    gameWorld.ExpandWorldMap(World::directions::Down);
+                    gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+                }
+                break;
+            }
+            case 'd':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Right!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Right->usable){
+                        player.characterData.Hunger++;
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]+1,gameWorld.playerPos[1]);
+                    }
+                }
+                else{
+                    gameWorld.ExpandWorldMap(World::directions::Right);
+                    gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+                }
+                break;
+            }
+        }
+}
+
+void UpdateHunger(Character &player){
+    if (player.characterData.Hunger>30&& player.characterData.fingers>0){   
+            player.characterData.Starved=true;
+            player.characterData.fingers--;
+            player.characterData.HPCurrent--;
+            player.characterData.Hunger-=10;
+        }
 }

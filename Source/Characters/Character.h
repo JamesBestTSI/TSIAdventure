@@ -16,6 +16,8 @@ class Character{
         int MPCurrent = 0;
 
         int Hunger = 0;
+        bool Starved = false;
+        int fingers =10;
 
         int Str = 0;
         int Int = 0;
