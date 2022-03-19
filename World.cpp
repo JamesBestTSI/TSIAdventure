@@ -170,9 +170,9 @@ void World::UpdateRoomsData(){
             if(distr(gen)>ChanceTileIsFree && worldMap[index].Name == "An Empty Room"){
                 worldMap[index].usable=false;
                 worldMap[index].Name = "BLOCKED";
-                worldMap[index].mapIcon = pathDirections[11];
-                
+                worldMap[index].mapIcon = pathDirections[11];                
             }
+            //else{worldMap[index].mapIcon=176;}
 
 
             if (index > worldWidth-1)
@@ -231,13 +231,28 @@ void World::CreatePaths(){
                 if (up&&!down) {outcome+=3;}
                 else if (!up&&down) {outcome-=3;}
 
-                if(up&&down&&!left&&!right){outcome=9;}
-                if(!up&&!down&&left&&right){outcome=10;}
+                if(up&&down&&!left&&!right){
+                    outcome=9;
+                    worldMap[index].Name = "a very narrow bridge.";
+                    worldMap[index].Description = "Dont look down!";
+                }
+                if(!up&&!down&&left&&right){
+                    outcome=10;
+                    worldMap[index].Name = "a very narrow bridge.";
+                    worldMap[index].Description = "Dont look down!";
+                }
 
                 
                 //if(!up&&!down&&!left&&!right){outcome=11;}
 
-                if ((int)up +(int)down+(int)left+(int)right <= 1){outcome=11;}
+                if (((int)up +(int)down+(int)left+(int)right) == (int)1){
+                    outcome=12;
+                    worldMap[index].Name = "a warm camp fire at a corner of the world.";
+                    worldMap[index].Description = "Hold up in a nice corner by the fire is kind of refreshing.";
+                }
+                else if (((int)up +(int)down+(int)left+(int)right) == (int)0){
+                    outcome=11;
+                }
 
 
                 worldMap[index].mapIcon = pathDirections[outcome];

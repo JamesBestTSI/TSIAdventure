@@ -79,22 +79,32 @@ int main()
     SetupCharacters(characterController);
     
     bool gameIsRunning = true;
+    int fingers=10;
 
     while (gameIsRunning){
         // Common Display
+        bool hunger = false;
         system("cls");
-        gameWorld.DisplayWorldMap();
+        if (player.characterData.Hunger>30&& fingers>0)
+        {   
+            hunger=true;
+            fingers--;
+            player.characterData.HPCurrent--;
+            player.characterData.Hunger-=10;
+        }
         player.DisplayCharacterStats();
+        gameWorld.DisplayWorldMap();
         std::cout << player.characterData.Name << " is at ";
         gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
         std::cout << std::endl<< "Description: ";
         gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
-
+        if (hunger){std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << fingers <<" remaining!";}
         char button = getch();
         switch(button){
             case 'w':{
                 if (gameWorld.worldMap[gameWorld.playerIndex].Up!=NULL){
                     if(gameWorld.worldMap[gameWorld.playerIndex].Up->usable){
+                        player.characterData.Hunger++;
                         gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]-1);
                     }
                 }
@@ -103,6 +113,7 @@ int main()
             case 'a':{
                 if (gameWorld.worldMap[gameWorld.playerIndex].Left!=NULL){
                     if(gameWorld.worldMap[gameWorld.playerIndex].Left->usable){
+                        player.characterData.Hunger++;
                         gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]-1,gameWorld.playerPos[1]);
                     }
                 }
@@ -111,6 +122,7 @@ int main()
             case 's':{
                 if (gameWorld.worldMap[gameWorld.playerIndex].Down!=NULL){
                     if(gameWorld.worldMap[gameWorld.playerIndex].Down->usable){
+                        player.characterData.Hunger++;
                         gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]+1);
                     }
                 }
@@ -119,6 +131,7 @@ int main()
             case 'd':{
                 if (gameWorld.worldMap[gameWorld.playerIndex].Right!=NULL){
                     if(gameWorld.worldMap[gameWorld.playerIndex].Right->usable){
+                        player.characterData.Hunger++;
                         gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]+1,gameWorld.playerPos[1]);
                     }
                 }

@@ -38,10 +38,11 @@ void Character::DisplayCharacterFace()
 void Character::DisplayCharacterStats()
 {
     std::cout << "        ,,,\n       (o o)\n----oOO--()--OOo----" << std::endl;
-    std::cout << "Name: " << characterData.Name << std::endl;
-    std::cout << "HP: " << characterData.HPCurrent << "/" << characterData.HPMax << std::endl;
-    std::cout << "HP: " << characterData.MPCurrent << "/" << characterData.MPMax << std::endl;
-    std::cout << "Int: " << characterData.Int << std::endl;
+    std::cout << "Name: " << characterData.Name << std::endl << " --- ";
+    std::cout << "HP: " << characterData.HPCurrent << "/" << characterData.HPMax <<  " --- ";
+    std::cout << "MP: " << characterData.MPCurrent << "/" << characterData.MPMax << " --- ";
+    std::cout << "Hunger: " << characterData.Hunger << " --- ";
+    std::cout << "Int: " << characterData.Int << " --- ";
     std::cout << "Str: " << characterData.Str << std::endl;
     // DisplayCharacterInventory(character);
 };

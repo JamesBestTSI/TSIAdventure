@@ -25,8 +25,10 @@ class World {
     const int HIDDENBLOCK = 219;
     const int UD = 186;
     const int LR = 205;
-    const int pathDirections[12] = {  32, 32, 32,32, 32, 32,32, 32, 32,
-                                                            32, 32, 178};
+    const int pathDirections[13] = {  176,176,176,
+                                                            176,177,176,
+                                                            176,176,176,
+                                                            186,205, 178, 35};
                                                             // {  201, 203, 187,
                                                             //204, 206, 185,
                                                             //200, 202, 188,
