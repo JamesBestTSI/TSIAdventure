@@ -6,7 +6,7 @@ class World {
     
     // The basic structure of a Room a player can visit
     struct Room{
-        std::string Name = "Empty Room";                                    // The rooms name
+        std::string Name = "An Empty Room";                                    // The rooms name
         std::string Description = "There is nothing here";          // The rooms description
         int mapIcon = 219;
         bool playerIsHere = false;
@@ -36,6 +36,7 @@ class World {
     int worldHeight=150;
     int worldWidth=40;
     int playerPos[2];
+    int playerIndex=0;
     Room *worldMap;
 
     Room *importantRooms;
@@ -56,6 +57,9 @@ class World {
     void UpdateRoomsData();
     void CreatePaths();
     void PlacePlayerInRoom(int x, int y);
+    void NameOfRoomAt(int x, int y);
+    void DescriptionOfRoomAt(int x, int y);
+    void WhereAmI(int x, int y);
 
 };
 #endif

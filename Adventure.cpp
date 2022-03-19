@@ -1,4 +1,5 @@
 ﻿#include <iostream> // This includes all code/functions for input/output of data streams
+#include <conio.h>
 #include <string>   // This allows us to work with string types (Lots of characters joined together such as words)
 #include <stdexcept>// This allows us to use try/catch
 #include "Source/Characters/CharactersController.cpp"
@@ -21,9 +22,9 @@ void SetupCharacters(CharactersController &characterController);
 int main()
 {
     CoreFunctions core = CoreFunctions();
-    std::cout << "Please enter width of world: ";
+    std::cout << "Please enter width of world (EG 30): ";
     int xsize = core.GetInt();
-    std::cout << "Please enter height of world: ";
+    std::cout << "Please enter height of world(EG 10): ";
     int ysize = core.GetInt();
 
     World gameWorld = World();
@@ -44,8 +45,7 @@ int main()
     gameWorld.DisplayWorldMap();
     //gameWorld.ExpandWorldMap(World::directions::Down);
    // gameWorld.DisplayWorldMap();
-    
-    core.GetInt();
+    getch();
 
 
 
@@ -61,11 +61,9 @@ int main()
 
 
 
-/*
+
     // Set up instances
     system("cls");
-    CoreFunctions core = CoreFunctions();
-    MapDesigner maps = MapDesigner();
     CharacterFaces faces = CharacterFaces();
     CharactersController characterController = CharactersController();
 
@@ -76,29 +74,60 @@ int main()
     player.ChangeMouth();
     std::cout << "Please Enter Your Name: ";
     player.SetName(core.GetString());
-    system("cls");
 
     // Create the world map
     SetupCharacters(characterController);
-    maps.CreateWorldMap();
+    
+    bool gameIsRunning = true;
 
+    while (gameIsRunning){
+        // Common Display
+        system("cls");
+        gameWorld.DisplayWorldMap();
+        player.DisplayCharacterStats();
+        std::cout << player.characterData.Name << " is at ";
+        gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+        std::cout << std::endl<< "Description: ";
+        gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
 
-    int playerX = 0;
-    int playerY = 0;
-    player.DisplayCharacterStats();
-
-    maps.DrawWorldMap();
-
-    std::cout << player.characterData.Name << " is at ";
-    maps.NameOfRoomAt(playerX, playerY);
-
-    std::cout << std::endl<< "Description: ";
-    maps.DescriptionOfRoomAt(playerX, playerY);
-    core.GetString();
-
+        char button = getch();
+        switch(button){
+            case 'w':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Up!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Up->usable){
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]-1);
+                    }
+                }
+                break;
+            }
+            case 'a':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Left!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Left->usable){
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]-1,gameWorld.playerPos[1]);
+                    }
+                }
+                break;
+            }
+            case 's':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Down!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Down->usable){
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0],gameWorld.playerPos[1]+1);
+                    }
+                }
+                break;
+            }
+            case 'd':{
+                if (gameWorld.worldMap[gameWorld.playerIndex].Right!=NULL){
+                    if(gameWorld.worldMap[gameWorld.playerIndex].Right->usable){
+                        gameWorld.PlacePlayerInRoom(gameWorld.playerPos[0]+1,gameWorld.playerPos[1]);
+                    }
+                }
+                break;
+            }
+        }
+    }
     //for (int index = 0; index < 255; index++) {
     //std::cout << "Index " << index << " " << (char)index << std::endl;}
-    */
 }
 
 void SetupCharacters(CharactersController &characterController)

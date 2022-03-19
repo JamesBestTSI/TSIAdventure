@@ -167,7 +167,7 @@ void World::UpdateRoomsData(){
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> distr(0, 100);
-            if(distr(gen)>ChanceTileIsFree && worldMap[index].Name == "Empty Room"){
+            if(distr(gen)>ChanceTileIsFree && worldMap[index].Name == "An Empty Room"){
                 worldMap[index].usable=false;
                 worldMap[index].Name = "BLOCKED";
                 worldMap[index].mapIcon = pathDirections[11];
@@ -205,7 +205,7 @@ void World::CreatePaths(){
     for (int row = 0; row< worldHeight; row++){
         for (int col = 0; col< worldWidth; col++){
             int index = row*worldWidth+col;
-            if (worldMap[index].Name =="Empty Room"){
+            if (worldMap[index].Name =="An Empty Room"){
                 bool up= false;
                 bool down= false;
                 bool left= false;
@@ -247,13 +247,29 @@ void World::CreatePaths(){
 }
 
 void World::PlacePlayerInRoom(int x, int y){
-    int currentRoomIndex = playerPos[1]*worldWidth+playerPos[x];
+    int currentRoomIndex = playerPos[1]*worldWidth+playerPos[0];
     playerPos[0]=x;
     playerPos[1]=y;
 
     worldMap[currentRoomIndex].playerIsHere = false;
     currentRoomIndex = y*worldWidth+x;
     worldMap[currentRoomIndex].playerIsHere = true;
+    playerIndex = currentRoomIndex;
 };
 
 
+void World::NameOfRoomAt(int x, int y)
+{
+    std::cout << worldMap[ y*worldWidth+x].Name;
+};
+
+void World::DescriptionOfRoomAt(int x, int y)
+{
+    std::cout << worldMap[ y*worldWidth+x].Description;
+};
+
+void World::WhereAmI(int x, int y)
+{
+    std::cout << worldMap[ y*worldWidth+x].Name << std::endl
+              << worldMap[ y*worldWidth+x].Description << std::endl;
+};
