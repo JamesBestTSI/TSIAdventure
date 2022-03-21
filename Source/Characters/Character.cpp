@@ -154,15 +154,15 @@ void Character::LevelUP()
     CoreFunctions core = CoreFunctions();
 
     while (levelPoints>0){
-        std::cout << levelPoints <<" to spend on upgrades.\n1. Int\n2. Str" << std::endl;
+        std::cout << levelPoints <<" to spend on upgrades.\n9. Int\n8. Str" << std::endl;
         int option = core.GetInt();
         switch(option){
-            case 1:{
+            case 9:{
                 characterData.Int++;
                 levelPoints--;
                 break;
             }
-            case 2:
+            case 8:
             {
                 characterData.Str++;
                 levelPoints--;

@@ -65,8 +65,8 @@ void World::ScatterImportantRooms(){
     std::cout <<"Scattering Important Locations Across The World"<<std::endl;
 
     // Create a randome number get for our X and Y pos
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    //std::random_device rd;
+    std::mt19937 gen(time(0));
     std::uniform_int_distribution<> distr(0, worldHeight - 1);
     std::uniform_int_distribution<> distr2(0, worldWidth - 1);
 
@@ -97,14 +97,14 @@ void World::ScatterImportantRooms(){
 };
 
 void World::UpdateRoomsData(){
-    std::cout <<"Updating Locations With Neighbouring Data"<<std::endl;
+    std::cout << "Updating Locations With Neighbouring Data" << std::endl;
+    std::mt19937 gen(time(0));
     for (int row = 0; row< worldHeight; row++){
         for (int col = 0; col< worldWidth; col++){
             int index = row*worldWidth+col;
             worldMap[index].indexValue = index;
 
-            std::random_device rd;
-            std::mt19937 gen(rd());
+            //std::random_device rd;
             std::uniform_int_distribution<> distr(0, 100);
             if (distr(gen) > ChanceTileIsFree && worldMap[index].Name == Adventure::LocationNameFromEnum(EmptyRoom))
             {
