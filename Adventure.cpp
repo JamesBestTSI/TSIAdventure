@@ -42,7 +42,7 @@ int main()
     player.DisplayCharacterFace();
     player.ChangeEyes();
     player.ChangeMouth();
-    std::cin.ignore();
+    std::cin.clear();
     std::cout << "Please Enter Your Name: ";
     player.SetName(core.GetString());
 
@@ -211,8 +211,7 @@ void UpdateHunger(Character &player){
 void Fight(CoreFunctions core, Character &badGuy, bool playerStarts)
 {
     bool starting = playerStarts;
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::mt19937 gen(time(0));
     std::uniform_int_distribution<> distr(0, 100);
     bool fighting = true;
     std::cout << "The battle begins.\n Press any key to continue..." << std::endl;
@@ -279,12 +278,12 @@ void ProcessGrassland(CoreFunctions core, World::Room &room){
     std::uniform_int_distribution<> distr(0, 100);
     int chance = distr(gen);
     // Use chance to battle
-    if (chance > 75 && chance < 90)
+    if (chance > 80 && chance < 95)
     {
         Character badGuy;
         badGuy.SetName("Bunny");
-        badGuy.characterData.HPCurrent = 10;
-        badGuy.characterData.HPMax = 10;
+        badGuy.characterData.HPCurrent = 5;
+        badGuy.characterData.HPMax = 5;
         badGuy.characterData.Str = 2;
         badGuy.characterData.EXP = 1;
         // Fight
@@ -311,7 +310,7 @@ void ProcessGrassland(CoreFunctions core, World::Room &room){
         }
         }
     }
-    else if (chance >= 90)
+    else if (chance >= 95)
     {
         Character badGuy;
         badGuy.SetName("Goblin");
@@ -544,6 +543,7 @@ void ProcessCampfire(CoreFunctions core){
                 if (player.characterData.inventory.itemList.items[foodIndex].amount == 0){
                     player.characterData.inventory.ClearItem(foodIndex);
                 }
+                break;
             }
             default:
             {
