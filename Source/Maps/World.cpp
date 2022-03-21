@@ -46,7 +46,7 @@ void World::CreateImportantRooms(){
     importantRoomsCount = rooms;
     importantRooms = new Room [rooms];
     CreateNewRoom(importantRooms[0],"Small House",127, "A small house seems an ideal place to rest.");
-    CreateNewRoom(importantRooms[1],"Grassland",177, "...");
+    CreateNewRoom(importantRooms[1],"Swamp",167, "...");
     CreateNewRoom(importantRooms[2],"Wood Cabin",35, "A broken down wooden cabin. Looks abandoned");
     CreateNewRoom(importantRooms[3],"Large Tree",20, "This tree is huge. Wonder what it's like up there...");
     CreateNewRoom(importantRooms[4],"Shop",36, "Looks like it might be possible to trade here.");
@@ -100,12 +100,12 @@ void World::UpdateRoomsData(){
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> distr(0, 100);
-            if(distr(gen)>ChanceTileIsFree && worldMap[index].Name == "An Empty Room"){
+            if(distr(gen)>ChanceTileIsFree && worldMap[index].Name == "Empty Room"){
                 worldMap[index].usable=false;
                 worldMap[index].Name = "BLOCKED";
                 worldMap[index].mapIcon = pathDirections[11];                
             }
-            else if (worldMap[index].Name == "An Empty Room"){worldMap[index].Name = "Grassland";}
+            else if (worldMap[index].Name == "Empty Room"){worldMap[index].Name = "Grassland";}
 
 
             if (index > worldWidth-1)

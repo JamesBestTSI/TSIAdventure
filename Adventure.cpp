@@ -14,6 +14,8 @@ void UpdateHunger(Character &player);
 void CreateMap(CoreFunctions core, World &gameWorld);
 void ProcessRoom(CoreFunctions core, std::string roomName);
 
+void ProcessSmallHouse(CoreFunctions core);
+
 
 
 /// <summary>
@@ -51,7 +53,8 @@ int main()
     while (gameIsRunning){
         bool hunger = false;
         system("cls");
-        std::string roomName =  gameWorld.worldMap[ gameWorld.playerPos[1]*gameWorld.worldWidth+gameWorld.playerPos[0]].Name;
+        World::Room currentRoom = gameWorld.worldMap[ gameWorld.playerPos[1]*gameWorld.worldWidth+gameWorld.playerPos[0]];
+        //std::string roomName =  gameWorld.worldMap[ gameWorld.playerPos[1]*gameWorld.worldWidth+gameWorld.playerPos[0]].Name;
         UpdateHunger(player);
 
         // Common Display
@@ -61,10 +64,9 @@ int main()
         std::cout << "\n------------------------" << std::endl;
         gameWorld.DisplayWorldMap();
         std::cout << "\n-----------Location-------------" << std::endl;
-        std::cout << player.characterData.Name << " is at ";
-        gameWorld.NameOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
-        std::cout << std::endl<< "Description: ";
-        gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
+        std::cout << player.characterData.Name << " is stood near a " << currentRoom.Name<< std::endl;
+        std::cout << "Description: " << currentRoom.Description << std::endl;
+        //gameWorld.DescriptionOfRoomAt(gameWorld.playerPos[0],gameWorld.playerPos[1]);
         std::cout << "\n------------------------\n" << std::endl;
         std::cout << "\nMove with W,A,S,D" << std::endl;
 
@@ -72,7 +74,7 @@ int main()
         if (player.characterData.Starved)
         {std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!\n"; player.characterData.Starved=false;}
 
-        ProcessRoom(core, roomName);
+        ProcessRoom(core, currentRoom.Name);
         
         std::cout <<"Move:";
         char button = getch();
@@ -211,8 +213,36 @@ void UpdateHunger(Character &player){
 
 void ProcessRoom(CoreFunctions core, std::string roomName){
     if(roomName == "Small House"){
-        std::cout << "1. Take a small nap.\n2.Have a look around.\n>" ;
-        int ans = core.GetInt();
+        ProcessSmallHouse(core);
+    }
+    else if(roomName == "Small House"){
+    }
+    else if(roomName == "Swamp"){
+    }
+    else if(roomName == "Wood Cabin"){
+    }
+    else if(roomName == "Large Tree"){
+    }
+    else if(roomName == "Graveyard"){
+    }
+    else if(roomName == "Lake"){
+    }
+    else if(roomName == "Cave"){
+    }
+    else if(roomName == "Castle"){
+    }
+    else if(roomName == "Empty Room"){
+    }
+    else if(roomName == "BLOCKED"){
+    }
+    else {
+    }
+};
+
+
+void ProcessSmallHouse(CoreFunctions core){
+    std::cout << "1. Take a small nap.\n2.Have a look around.\n>" ;
+     int ans = core.GetInt();
         
         std::cin.ignore();
         switch(ans){
@@ -228,5 +258,4 @@ void ProcessRoom(CoreFunctions core, std::string roomName){
                 std::cout <<"\nYou don't sem to want to do either of the two options that come to mind, and so just stand there for a while looking dumb."<< std::endl;
             }
         }
-    }
 };

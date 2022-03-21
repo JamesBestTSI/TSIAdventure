@@ -3,10 +3,10 @@
 #include <string>
 
 class World {
-    
-    // The basic structure of a Room a player can visit
+    public:
+     // The basic structure of a Room a player can visit
     struct Room{
-        std::string Name = "An Empty Room";                                    // The rooms name
+        std::string Name = "Empty Room";                                    // The rooms name
         std::string Description = "There is nothing here";          // The rooms description
         int mapIcon = 219;
         bool playerIsHere = false;
@@ -18,9 +18,6 @@ class World {
         Room *Left;
         Room *Right;
     };
-
-
-    public:
     const int ChanceTileIsFree = 80;
     const int HIDDENBLOCK = 219;
     const int UD = 186;
