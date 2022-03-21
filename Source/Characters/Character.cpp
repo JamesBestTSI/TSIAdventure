@@ -37,7 +37,7 @@ void Character::DisplayCharacterFace()
 
 void Character::DisplayCharacterStats()
 {
-    std::cout << "        ,,,\n       (o o)\n----oOO--()--OOo----" << std::endl;
+    //std::cout << "        ,,,\n       (o o)\n----oOO--()--OOo----" << std::endl;
     std::cout << "Name: " << characterData.Name << std::endl << " --- ";
     std::cout << "HP: " << characterData.HPCurrent << "/" << characterData.HPMax <<  " --- ";
     std::cout << "MP: " << characterData.MPCurrent << "/" << characterData.MPMax << " --- ";
@@ -77,9 +77,22 @@ void Character::SetMainHandLeft(bool leftHanded)
     characterData.LeftHanded = leftHanded;
 };
 
+void Character::TakeDamage(int dmg){
+    characterData.HPCurrent -= dmg;
+    if (characterData.HPCurrent<=0){
+        //Kill character
+    };
+    if (characterData.HPCurrent>characterData.HPMax){
+        characterData.HPCurrent = characterData.HPMax;
+    }
+};
+
 void Character::EditHungerBy(int change)
 {
     characterData.Hunger += change;
+    if (characterData.Hunger<0){
+        characterData.Hunger = 0;
+    }
 };
 
 void Character::ChangeEyes()
@@ -127,5 +140,44 @@ void Character::ChangeMouth()
         {
             settingMouth = false;
         }
+    }
+};
+
+void Character::GiveItem(ItemNames item){    
+    characterData.inventory.GiveItem(item);
+};
+
+void Character::LevelUP()
+{
+    int levelPoints = characterData.EXP / 10;
+    characterData.EXP = characterData.EXP % 10;
+    CoreFunctions core = CoreFunctions();
+
+    while (levelPoints>0){
+        std::cout << levelPoints <<" to spend on upgrades.\n1. Int\n2. Str" << std::endl;
+        int option = core.GetInt();
+        switch(option){
+            case 1:{
+                characterData.Int++;
+                levelPoints--;
+                break;
+            }
+            case 2:
+            {
+                characterData.Str++;
+                levelPoints--;
+                break;
+            }
+            default:{
+                system("cls");
+            }
+        }
+    }
+}
+
+void Character::GiveEXP(int amount){
+    characterData.EXP += amount;
+    if (characterData.EXP>10){
+        LevelUP();
     }
 };

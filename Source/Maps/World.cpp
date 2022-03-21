@@ -41,10 +41,14 @@ void World::DisplayWorldMap(){
 
 void World::CreateImportantRooms(){
     std::cout <<"Creating Important Locations"<<std::endl;
-    int rooms = 9;  // This is here so we can expand the room count easier later if needed
+    int rooms = LocationsLength; // This is here so we can expand the room count easier later if needed
 
-    importantRoomsCount = rooms;
     importantRooms = new Room [rooms];
+
+    for (int index = 0; index < LocationsLength; index++){
+        CreateNewRoom(importantRooms[index], Adventure::LocationNameFromEnum(LocationName(index)), Adventure::LocationIconFromEnum(LocationName(index)), Adventure::LocationDescriptionFromEnum(LocationName(index)));
+    }
+    /*
     CreateNewRoom(importantRooms[0],"Small House",127, "A small house seems an ideal place to rest.");
     CreateNewRoom(importantRooms[1],"Swamp",167, "...");
     CreateNewRoom(importantRooms[2],"Wood Cabin",35, "A broken down wooden cabin. Looks abandoned");
@@ -54,6 +58,7 @@ void World::CreateImportantRooms(){
     CreateNewRoom(importantRooms[6],"Lake",229, "I hear all kinds of things get dumped in lakes.");
     CreateNewRoom(importantRooms[7],"Cave",182, "Seems dangerous.");
     CreateNewRoom(importantRooms[8],"Castle",222, "Looks like royalty lives here.");
+    */
 };
 
 void World::ScatterImportantRooms(){
@@ -66,9 +71,9 @@ void World::ScatterImportantRooms(){
     std::uniform_int_distribution<> distr2(0, worldWidth - 1);
 
     // Create an array to store a room x and y pos
-    int roomLocations[importantRoomsCount];
+    int roomLocations[LocationsLength];
 
-    for (int n = 0; n < importantRoomsCount; ++n)
+    for (int n = 0; n < LocationsLength; ++n)
     {
         int x = distr2(gen);   // Set the rooms x position
         int y = distr(gen);  // Set the rooms y position
@@ -85,8 +90,9 @@ void World::ScatterImportantRooms(){
     }
 
     // Place those rooms in the locations
-    for(int roomIndex = 0; roomIndex < importantRoomsCount; roomIndex++){
-        worldMap[roomLocations[roomIndex]] = importantRooms[roomIndex]; 
+    for (int roomIndex = 0; roomIndex < LocationsLength; roomIndex++)
+    {
+        worldMap[roomLocations[roomIndex]] = importantRooms[roomIndex];
     }
 };
 
@@ -100,13 +106,16 @@ void World::UpdateRoomsData(){
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> distr(0, 100);
-            if(distr(gen)>ChanceTileIsFree && worldMap[index].Name == "Empty Room"){
+            if (distr(gen) > ChanceTileIsFree && worldMap[index].Name == Adventure::LocationNameFromEnum(EmptyRoom))
+            {
                 worldMap[index].usable=false;
-                worldMap[index].Name = "BLOCKED";
-                worldMap[index].mapIcon = pathDirections[11];                
+                worldMap[index].Name = Adventure::LocationNameFromEnum(Blocked);
+                worldMap[index].mapIcon = pathDirections[11];
             }
-            else if (worldMap[index].Name == "Empty Room"){worldMap[index].Name = "Grassland";}
-
+            else if (worldMap[index].Name == Adventure::LocationNameFromEnum(EmptyRoom))
+            {
+                worldMap[index].Name = Adventure::LocationNameFromEnum(Grassland);
+            }
 
             if (index > worldWidth-1)
                 {worldMap[index].Up =  &worldMap[index-worldWidth];}
@@ -138,7 +147,8 @@ void World::CreatePaths(){
     for (int row = 0; row< worldHeight; row++){
         for (int col = 0; col< worldWidth; col++){
             int index = row*worldWidth+col;
-            if (worldMap[index].Name =="Grassland"){
+            if (worldMap[index].Name == Adventure::LocationNameFromEnum(Grassland))
+            {
                 bool up= false;
                 bool down= false;
                 bool left= false;
@@ -166,12 +176,12 @@ void World::CreatePaths(){
 
                 if(up&&down&&!left&&!right){
                     outcome=9;
-                    worldMap[index].Name = "a very narrow bridge.";
+                    worldMap[index].Name = "very narrow bridge.";
                     worldMap[index].Description = "Dont look down!";
                 }
                 if(!up&&!down&&left&&right){
                     outcome=10;
-                    worldMap[index].Name = "a very narrow bridge.";
+                    worldMap[index].Name = "very narrow bridge.";
                     worldMap[index].Description = "Dont look down!";
                 }
 
@@ -180,8 +190,8 @@ void World::CreatePaths(){
 
                 if (((int)up +(int)down+(int)left+(int)right) == (int)1){
                     outcome=12;
-                    worldMap[index].Name = "a warm camp fire at a corner of the world.";
-                    worldMap[index].Description = "Hold up in a nice corner by the fire is kind of refreshing.";
+                    worldMap[index].Name = "Campfire";
+                    worldMap[index].Description = "Stood in a nice corner of the world by the fire is kind of refreshing.";
                 }
                 else if (((int)up +(int)down+(int)left+(int)right) == (int)0){
                     outcome=11;

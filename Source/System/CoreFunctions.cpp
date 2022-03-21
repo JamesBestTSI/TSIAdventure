@@ -19,7 +19,8 @@ int CoreFunctions::GetInt(){
         int input;
         std::string consoleInput;
         std::cin  >> consoleInput;
-        
+        std::cin.ignore();
+
         try{
             input = std::stoi(consoleInput);
             return input;

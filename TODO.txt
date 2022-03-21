@@ -1,3 +1,8 @@
+GIVE BUNNY ITEM AND LADDER
+Allow Cooking Bunny at campfire
+
+
+
 Make Room Names Global constants, and update them throughout the files so we can use a switch case.
 When drawing the face, after each line add a stat, so that we can have stats next to the face.
 

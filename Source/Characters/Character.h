@@ -22,6 +22,8 @@ class Character{
         int Str = 0;
         int Int = 0;
 
+        int EXP = 0;
+
         Inventories inventory;
 
         std::string Hair = "      ***\n    *******\n  ***********";
@@ -48,8 +50,12 @@ class Character{
         void SetName(std::string name);
         void SetAge(int age);
         void SetMainHandLeft(bool leftHanded);
+        void TakeDamage(int dmg);
+        void GiveItem(ItemNames item);
         void EditHungerBy(int change);
         void ChangeEyes();
         void ChangeMouth();
+        void LevelUP();
+        void GiveEXP(int amount);
 };
 #endif

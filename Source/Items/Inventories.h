@@ -9,6 +9,7 @@ class Inventories{
         struct Item {
             std::string Name = "Empty";
             std::string Description = "Empty";
+            int amount = 0;
         };
 
         struct Inventory {
@@ -18,7 +19,7 @@ class Inventories{
         Inventory itemList;
         Inventories();
         ~Inventories();
-
-
+        void GiveItem(ItemNames item);
+        void ClearItem(int index);
 };
 #endif

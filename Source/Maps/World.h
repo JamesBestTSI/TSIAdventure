@@ -1,22 +1,26 @@
 #ifndef WORLD_H
 #define WORLD_H
 #include <string>
+#include "../../Adventure.h"
 
 class World {
     public:
-     // The basic structure of a Room a player can visit
-    struct Room{
-        std::string Name = "Empty Room";                                    // The rooms name
-        std::string Description = "There is nothing here";          // The rooms description
+    // The basic structure of a Room a player can visit
+    struct Room
+    {
+        std::string Name = Adventure::LocationNameFromEnum(EmptyRoom); // The rooms name
+        std::string Description = "There is nothing here"; // The rooms description
         int mapIcon = 219;
         bool playerIsHere = false;
 
-        int indexValue=0;
+        int indexValue = 0;
         bool usable = true;
         Room *Up;
         Room *Down;
         Room *Left;
         Room *Right;
+
+        int Inspect = 0;
     };
     const int ChanceTileIsFree = 80;
     const int HIDDENBLOCK = 219;
