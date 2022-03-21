@@ -25,7 +25,7 @@ void Inventories::GiveItem(ItemNames item){
         if (itemList.items[index].Name == additionalItem.Name)
         {
             itemList.items[index].amount++;
-            itemExists + true;
+            itemExists = true;
         }
     }
     if (itemExists == false){

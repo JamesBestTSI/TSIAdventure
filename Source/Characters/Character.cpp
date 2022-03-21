@@ -53,7 +53,7 @@ void Character::DisplayCharacterInventory()
     for (int Index = 0; Index < 10; Index++)
     {
         if(characterData.inventory.itemList.items[Index].Name != "Empty" || Index<3){
-            std::cout << "Slot " << Index << " - " << characterData.inventory.itemList.items[Index].Name << "\n  -" << characterData.inventory.itemList.items[Index].Description << std::endl;
+            std::cout << "Slot " << Index << " - " << characterData.inventory.itemList.items[Index].Name << " x" << characterData.inventory.itemList.items[Index].amount << "\n  -" << characterData.inventory.itemList.items[Index].Description << std::endl;
         }
     }
 };
