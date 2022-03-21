@@ -38,7 +38,7 @@ int main()
     system("cls");
 
     // Create players character
-    player = Character("Player", 30,30,3,2);
+    player = Character("Player", 50,30,5,5);
     player.DisplayCharacterFace();
     player.ChangeEyes();
     player.ChangeMouth();
@@ -285,7 +285,7 @@ void ProcessGrassland(CoreFunctions core, World::Room &room){
         badGuy.characterData.HPCurrent = 5;
         badGuy.characterData.HPMax = 5;
         badGuy.characterData.Str = 2;
-        badGuy.characterData.EXP = 1;
+        badGuy.characterData.EXP = 3;
         // Fight
         std::cout << "You stumble across a rabbit, and it looks pretty tasty.\n1. Kill Rabbit\n2. Leave it be.\n";
         int ans = core.GetInt();

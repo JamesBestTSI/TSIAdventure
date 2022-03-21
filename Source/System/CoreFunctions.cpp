@@ -16,13 +16,16 @@ CoreFunctions::~CoreFunctions(){};
 /// <returns>Number entered by user</returns>
 int CoreFunctions::GetInt(){
     while(true){
-        int input;
+        int input=-1;
         std::string consoleInput;
-        std::cin  >> consoleInput;
-        std::cin.ignore();
 
         try{
-            input = std::stoi(consoleInput);
+            while(input<=0)
+            {
+                std::cin >> consoleInput;
+                std::cin.ignore();
+                input = std::stoi(consoleInput);
+            }
             return input;
         }
         catch(...){

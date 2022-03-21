@@ -44,7 +44,6 @@ void Character::DisplayCharacterStats()
     std::cout << "Hunger: " << characterData.Hunger << " --- ";
     std::cout << "Int: " << characterData.Int << " --- ";
     std::cout << "Str: " << characterData.Str << std::endl;
-    // DisplayCharacterInventory(character);
 };
 
 void Character::DisplayCharacterInventory()
@@ -57,9 +56,6 @@ void Character::DisplayCharacterInventory()
             std::cout << "Slot " << Index << " - " << characterData.inventory.itemList.items[Index].Name << "\n  -" << characterData.inventory.itemList.items[Index].Description << std::endl;
         }
     }
-    // for (auto &item : characterData.inventory.itemList) {
-    //     std::cout << "Slot " << slotNumber << " - " << item.Name << "\n  -" << item.Description << std::endl;
-    // }
 };
 
 void Character::SetName(std::string name)
