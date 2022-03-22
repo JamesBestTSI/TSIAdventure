@@ -34,7 +34,7 @@ class Adventure{
             switch (value)
             {
             case 0:
-                return "BLOCKED";
+                return "BLOCKED WALL";
             case 1:
                 return "Empty Room";
             case 2:
@@ -70,29 +70,29 @@ class Adventure{
             case 0:
                 return "BLOCKED";
             case 1:
-                return "Empty Room";
+                return "There is nothing here";
             case 2:
-                return "Small House";
+                return "Seems like a good place to rest";
             case 3:
-                return "Swamp";
+                return "Muddy and smelly";
             case 4:
-                return "Wood Cabin";
+                return "Looks like someone lived here many years ago";
             case 5:
-                return "Large Tree";
+                return "This tree is huge, and it looks like ther is something at the top";
             case 6:
-                return "Graveyard";
+                return "This place seems rather spooky";
             case 7:
-                return "Lake";
+                return "Apparently people throw things into lakes";
             case 8:
-                return "Cave";
+                return "Dark and dangerous, but what's inside";
             case 9:
-                return "Castle";
+                return "Looks like royalty lives here";
             case 10:
-                return "Grassland";
+                return "Traveling here alone could be dangerous.";
             case 11:
-                return "Shop";
+                return "Looks like you could buy things here";
             case 12:
-                return "Campfire";
+                return "Nice hot fire for cooking things";
             }
             return "";
         };
@@ -102,9 +102,9 @@ class Adventure{
             switch (value)
             {
             case 0:
-                return 176;
+                return 219;
             case 1:
-                return 176;
+                return 32;
             case 2:
                 return 127;
             case 3:

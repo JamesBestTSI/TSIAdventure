@@ -23,15 +23,14 @@ void World::CreateNewRoom(Room &room){
 void World::CreateNewRoom(Room &room, std::string name, int icon, std::string description){
     room.Name = name;
     room.Description = description;
-    room.mapIcon = icon;    
-    std::cout << name<< " created as " << (char)icon<<std::endl;
+    room.mapIcon = icon;
+    std::cout << (char)icon << " = " << name << std::endl;
 };
 void World::DisplayWorldMap(){
     for (int row = 0; row< worldHeight; row++){
         for (int col = 0; col< worldWidth; col++){
             if (worldMap[row*worldWidth+col].playerIsHere){std::cout << (char)153;}
-            else{
-                
+            else{                
                 std::cout << (char)worldMap[row*worldWidth+col].mapIcon;
                 }
         }

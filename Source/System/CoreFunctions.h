@@ -8,6 +8,7 @@ class CoreFunctions{
         ~CoreFunctions();
 
         int GetInt();
+        int GetIntMinMax(int min, int max);
         std::string GetString();
         char GetChar();
 };

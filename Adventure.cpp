@@ -16,6 +16,15 @@ void CreateMap(CoreFunctions core, World &gameWorld);
 void ProcessRoom(CoreFunctions core, World::Room &room);
 void DisplayGameWorld(World &gameWorld);
 
+bool gameIsRunning = true;
+bool hasLadder = false;
+bool hasEgg = false;
+bool hasScroll = false;
+bool hasStaff = false;
+bool hasMerman = false;
+bool hasSword = false;
+bool hasCrown = false;
+
 Character player;
 World gameWorld;
 /// <summary>
@@ -24,9 +33,13 @@ World gameWorld;
 /// <returns></returns>
 int main()
 {
-    std::cout << "Currently: Level ups work, EXP gain, 2 different Fights, house, sleeping, wood cabin, bridges, expanding land, character customization, cooking at campfires all complete." << std::endl;
-    std::cout << "TODO: Give items, Main Character dialogues, Other areas, Game Over on 0 health" << std::endl;
-    std::cout << "It is advised to run the EXE and not in terminal\nPartly so you can fullscreen the window,\nbut also because some characters will not display in terminal.\nPress any key to continue..." << std::endl;
+    std::cout << "#######################################################################################" << std::endl;
+    for (int loop = 0; loop < 40;loop++){std::cout << "#                                                                                     #" << std::endl;}
+    std::cout << "#######################################################################################" << std::endl;
+
+    //std::cout << "Currently: Level ups work, EXP gain, 2 different Fights, house, sleeping, wood cabin, bridges, expanding land, character customization, cooking at campfires all complete." << std::endl;
+    //std::cout << "TODO: Give items, Main Character dialogues, Other areas, Game Over on 0 health" << std::endl;
+    std::cout << " - It is advised to run the EXE and not in terminal\n - Make sure you can see the whole of the box above.\nPress any key to continue..." << std::endl;
     getch();
 
     // Set up instances
@@ -38,17 +51,20 @@ int main()
     system("cls");
 
     // Create players character
-    player = Character("Player", 50,30,5,5);
+    player = Character("Player", 50, 30, 5, 5);
+    std::cout << "#############################" << std::endl;
+    std::cout << "#  Character Customization  #" << std::endl;
+    std::cout << "#############################" << std::endl;
     player.DisplayCharacterFace();
     player.ChangeEyes();
     player.ChangeMouth();
     std::cin.clear();
+    std::cin.ignore();
     std::cout << "Please Enter Your Name: ";
     player.SetName(core.GetString());
 
     // Create the world map
     SetupCharacters(characterController);
-    bool gameIsRunning = true;
     int fingers=10;
 
     while (gameIsRunning){
@@ -66,7 +82,7 @@ int main()
             else
             {
                 std::cout << "\nYou are starving, and with no finders left to eat youhave no idea what to do.";
-            }
+            }            
         }
 
         World::Room *currentRoom = &gameWorld.worldMap[gameWorld.playerPos[1] * gameWorld.worldWidth + gameWorld.playerPos[0]];
@@ -74,8 +90,7 @@ int main()
         
         std::cout <<"Move:";
         char button = getch();
-        CheckForMovement(button, gameWorld,player);
-        
+        CheckForMovement(button, gameWorld,player);        
     }
 }
 
@@ -83,12 +98,12 @@ void CreateMap(CoreFunctions core, World &gameWorld){
     bool worldCreated=false;
     while (!worldCreated){
         system("cls");
-        std::cout << "Please enter width of world (EG 30): ";
-        int xsize = core.GetInt();
-        std::cout << "Please enter height of world(EG 10): ";
-        int ysize = core.GetInt();
-
-        
+        std::cout << "Lets create the world we will play in\n\nLarger worlds will be much harder to get to new locations.\n" << std::endl;
+        std::cout << "World Width" << std::endl;
+        int xsize = core.GetIntMinMax(5, 100);
+        int minValue = (10/xsize)+2;
+        std::cout << "World Height: " << std::endl;
+        int ysize = core.GetIntMinMax(minValue, 40);
 
         bool worldReady=false;
         gameWorld.playerPos[0]=0;
@@ -96,16 +111,15 @@ void CreateMap(CoreFunctions core, World &gameWorld){
         while(!worldReady){
             system("cls");
             gameWorld.SetWorldSize(xsize, ysize);
-            std::cout << "-";
+            std::cout << "\n---- ";
             gameWorld.CreateWorldMap();
-            std::cout << "-";
+            std::cout << "\n---- ";
             gameWorld.CreateImportantRooms();
-            std::cout << "-";
+            std::cout << "\n---- ";
             gameWorld.ScatterImportantRooms();
-            std::cout << "-";    
+            std::cout << "\n---- ";    
             gameWorld.PlacePlayerInRoom(0,0);
             gameWorld.UpdateRoomsData();
-            std::cout << "-" << std::endl;
             gameWorld.CreatePaths();
             gameWorld.DisplayWorldMap();
 
@@ -225,11 +239,11 @@ void Fight(CoreFunctions core, Character &badGuy, bool playerStarts)
         if (starting)
         {
             std::cout << "1. Attack\n2. Flee" << std::endl;
-            int ans = core.GetInt();
-
+            char ans = getch();
+           
             switch (ans)
             {
-                case 1:
+                case '1':
                 {
                     std::cout << "You attack the "<< badGuy.characterData.Name << " and deal "<< player.characterData.Str/2 << " damage." << std::endl;
                     badGuy.characterData.HPCurrent -= player.characterData.Str / 2;
@@ -244,7 +258,7 @@ void Fight(CoreFunctions core, Character &badGuy, bool playerStarts)
                     }
                     break;
                 }
-                case 2:
+                case '2':
                 {
                     std::cout << "You try to flee...";
                     int chance = distr(gen);
@@ -371,7 +385,18 @@ void ProcessSmallHouse(CoreFunctions core){
 };
 
 void ProcessSwamp(CoreFunctions core, World::Room &room){
-    // Random chance of fight
+    if (!hasStaff)
+    {
+        std::cout << "You see a merman angrily hunting around for his staff." << std::endl;
+    }
+    else
+    {
+        if (!hasMerman)
+        {
+            std::cout << "You hand the merman his stolen staff and in thanks he points in a direction and all you hear is the word -Lake-" << std::endl;
+            hasMerman = true;
+        }
+    }
 };
 
 void ProcessWoodCabin(CoreFunctions core, World::Room &room){
@@ -407,7 +432,7 @@ void ProcessWoodCabin(CoreFunctions core, World::Room &room){
                         {
                             case 1:
                             {   // Break down the door
-                                if (player.characterData.Str > 8)
+                                if (player.characterData.Str > 6)
                                 {
                                     DisplayGameWorld(gameWorld);
                                     std::cout << "\nYou throw yourself against the door in hopes that it will burst open.\nThankfully you have gained enough strength during your travels and break down the door with no issues." << std::endl;
@@ -447,7 +472,7 @@ void ProcessWoodCabin(CoreFunctions core, World::Room &room){
                             DisplayGameWorld(gameWorld);
                             player.GiveItem(Ladder);
                             room.Inspect++;
-                            break;
+                            return;
                         }
                         case 2:
                         {
@@ -501,22 +526,84 @@ void ProcessWoodCabin(CoreFunctions core, World::Room &room){
 
 void ProcessLargeTree(CoreFunctions core, World::Room &room){
     // Random chance of fight
+
+    if (!hasLadder){
+        for (int index = 0; index < 10; index++)
+        {
+            if (player.characterData.inventory.itemList.items[index].Name == "Ladder")
+            {
+                hasLadder = true;
+            }
+        }
+        if (!hasLadder){
+            std::cout << "Looks like you could climb this" << std::endl;
+        }
+    }
+
+    if (hasLadder && !hasEgg){
+        std::cout << "You use the ladder to climb the tree.\nAt the top of the tree you find a huge egg." << std::endl;
+        hasEgg = true;
+    }
 };
 
 void ProcessGraveyard(CoreFunctions core, World::Room &room){
-    // Random chance of fight
+    if (!hasScroll)
+    {
+        std::cout << "A nasty necromancer with a stolen staff is furiously hunting through a pile of scrolls." << std::endl;
+    }
+    else
+    {
+        if (!hasStaff)
+        {
+            std::cout << "The necromancer spots that you have a scroll and trades you it for his staff." << std::endl;
+            hasStaff = true;
+        }
+    }
 };
 
 void ProcessLake(CoreFunctions core, World::Room &room){
-    // Random chance of fight
+    if (!hasMerman)
+    {
+        std::cout << "Something seems to be sparkleing at the bottom of the lake but it's too deep to swim down to." << std::endl;
+    }
+    else
+    {
+        if (!hasSword)
+        {
+            std::cout << "You find the merman floating in the lake, he swims down to the bottom and brings back a golden sword." << std::endl;
+            hasSword = true;
+        }
+    }
 };
 
 void ProcessCave(CoreFunctions core, World::Room &room){
-    // Random chance of fight
+    if (!hasSword)
+    {
+        std::cout << "Entering the cave you spot a dragon protecting his gold, and decide to retreat." << std::endl;
+    }
+    else
+    {
+        if (!hasCrown)
+        {
+            std::cout << "You run headfirst into the cave with a golden sword in hand and slay the dragon hording it's gold. As a reward you pick up a golden crown." << std::endl;
+            hasCrown = true;
+        }
+    }
 };
 
 void ProcessCastle(CoreFunctions core, World::Room &room){
-    // Random chance of fight
+    if (!hasCrown)
+    {
+        std::cout << "Visiting the castle you meet with a king, who explains his crown was stolen by a Dragon hwo hides in a cave." << std::endl;
+    }
+    else
+    {
+        if (gameIsRunning)
+        {
+            std::cout << "You pass the king his crown and he thanks you.\n\n\n it seems your adventure ends here." << std::endl;
+            gameIsRunning = false;
+        }
+    }
 };
 
 void ProcessCampfire(CoreFunctions core){
@@ -559,6 +646,15 @@ void ProcessCampfire(CoreFunctions core){
 
 void ProcessShop(CoreFunctions core, World::Room &room){
     // Random chance of fight
+    if (!hasEgg){
+        std::cout << "You see a shop keeper who seems willing to trade a magic scroll for a rare egg." << std::endl;
+    }
+    else{
+        if (!hasScroll){
+            std::cout << "The shop keeper happily trades your edd for his scroll." << std::endl;
+            hasScroll = true;
+        }
+    }
 };
 
 void ProcessRoom(CoreFunctions core, World::Room &room)

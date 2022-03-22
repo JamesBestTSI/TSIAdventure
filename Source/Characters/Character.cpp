@@ -77,6 +77,8 @@ void Character::TakeDamage(int dmg){
     characterData.HPCurrent -= dmg;
     if (characterData.HPCurrent<=0){
         //Kill character
+        std::cout << "Sadly your adventure comes to an end because your health dropped to 0." << std::endl;
+        exit;
     };
     if (characterData.HPCurrent>characterData.HPMax){
         characterData.HPCurrent = characterData.HPMax;
@@ -87,6 +89,7 @@ void Character::EditHungerBy(int change)
 {
     characterData.Hunger += change;
     if (characterData.Hunger<0){
+        TakeDamage(1);
         characterData.Hunger = 0;
     }
 };
@@ -100,13 +103,17 @@ void Character::ChangeEyes()
     while (settingEyes)
     {
         system("CLS");
-        characterData.Eyes = faces.AvailableEyes.Selection[eyesIndex];
         DisplayCharacterFace();
-        std::cout << "Select Eyes (0-7), any other number to exit: ";
+        std::cout << "\nSelect your characters eyes.\nEnter 9 to continue...\n";
+        for (int index = 0; index < 8;index++){
+            std::cout << index << " = "<< faces.AvailableEyes.Selection[index] << std::endl;
+        }
+
         int option = core.GetInt();
         if (option < 8 && option >= 0)
         {
             eyesIndex = option;
+            characterData.Eyes = faces.AvailableEyes.Selection[eyesIndex];
         }
         else
         {
@@ -124,13 +131,17 @@ void Character::ChangeMouth()
     while (settingMouth)
     {
         system("CLS");
-        characterData.Mouth = faces.AvailableMouths.Selection[mouthIndex];
         DisplayCharacterFace();
-        std::cout << "Select Eyes (0-6), any other number to exit: ";
+        std::cout << "\nSelect your characters mouth.\nEnter 9 to continue...\n";
+        for (int index = 0; index < 7; index++)
+        {
+            std::cout << index << " = " << faces.AvailableMouths.Selection[index] << std::endl;
+        }
         int option = core.GetInt();
         if (option < 7 && option >= 0)
         {
             mouthIndex = option;
+            characterData.Mouth = faces.AvailableMouths.Selection[mouthIndex];
         }
         else
         {
@@ -165,7 +176,7 @@ void Character::LevelUP()
                 break;
             }
             default:{
-                system("cls");
+                //system("cls");
             }
         }
     }
