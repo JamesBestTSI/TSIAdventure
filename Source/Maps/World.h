@@ -1,6 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 #include <string>
+#include <time.h>
 #include "../../Adventure.h"
 
 class World {

@@ -77,7 +77,8 @@ int main()
         { 
             if (player.characterData.fingers>0)
             { 
-                std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!\n"; player.characterData.Starved=false;
+                std::cout << "\nYou started to starve, so you decided to chew off a finger\nOnly " << player.characterData.fingers <<" remaining!\n";
+                player.characterData.Starved=false;
             }
             else
             {
@@ -702,9 +703,6 @@ void ProcessRoom(CoreFunctions core, World::Room &room)
         break;
     }
 };
-
-
-
 
 void DisplayGameWorld(World &gameWorld){
     system("cls");
